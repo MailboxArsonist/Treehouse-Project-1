@@ -58,8 +58,9 @@ var quotes = [
   }
 ];
 
-var backgroundColors = ['#095256', '#087F8C', '#5AAA95', '#86A873','#BB9F06', '#F4E04D','#B75D69', '#8B95C9', '#70163C'];
+var backgroundColors = ['#095256', '#087F8C', '#5AAA95', '#86A873','#BB9F06', '#B75D69', '#8B95C9', '#70163C'];
 var quoteOnPage;
+var timer;
 
 
 //This function will create a random quote from quotes array
@@ -106,13 +107,18 @@ function printQuote(){
   messageToPrint += '<p class="tags">Tags: ' + quoteObject.tags +  '</p>';
   //Grab the div and use innerHTML to print our string.
   document.getElementById('quote-box').innerHTML = messageToPrint;
+  intervalTimer();
 }
 
-//run printQuote func so that a random quote is loaded onto the screen when page is loaded.
+//run printQuote func so that a random quote is loaded onto the screen when page is loaded and interval is active
 printQuote();
 
-//Set interval will auto print quote after 20 secs
-setInterval(printQuote, 20000);
+function intervalTimer() {
+  //cleartimer
+  clearInterval(timer);
+  //restart timer, every 10 secs will call printQuote
+  timer = setInterval(printQuote, 10000);
+}
 
 //Event Listener on button which will call print func
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
