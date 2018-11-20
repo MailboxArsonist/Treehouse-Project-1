@@ -68,6 +68,14 @@ body {
   font-style: normal;
 }
 
+.tags{
+  font-size: 1rem;;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  text-align: right;
+  margin-right: 4em;
+}
+
 #loadQuote {
   position: fixed;
   width: 12em;

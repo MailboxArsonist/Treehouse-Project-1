@@ -7,35 +7,59 @@ FSJS project 1 - A Random Quote Generator
 var quotes = [
   {
     quote: "In the midst of chaos, there is also opportunity",
-    source: "Sun-Tzu"
+    source: "Sun-Tzu",
+    tags: "War, Books"
   },
   {
     quote: "Not all those who wander are lost.",
     source: "J.R.R Tolkien",
-    citation: "The Fellowship of the Ring"
+    citation: "The Fellowship of the Ring",
+    tags: "Books, Movies, Travel"
   },
   {
     quote: "Change will not come if we wait for some other person or some other time. We are the ones we've been waiting for. We are the change that we seek.",
     source: "Barack Obama",
-    year: 2008
+    year: 2008,
+    tags: "Government, Motivational, Change, Leadership"
   },
   {
     quote: "We make a living by what we get, but we make a life by what we give.",
-    source: "Winston Churchill"
+    source: "Winston Churchill",
+    tags: "Positive Thinking, Life"
   },
   {
     quote: "They call it a Royale with cheese.",
     source: "Jules Winnfield",
     citation: "Pulp Fiction",
-    year: 1994
+    year: 1994,
+    tags: "Movies"
   },
   {
     quote: "When something is important enough, you do it even if the odds are not in your favour.",
-    source: "Elon Musk"
+    source: "Elon Musk",
+    tags: "Motivational, Inspirational"
+  },
+  {
+    quote: "My best friend is the one who brings out the best in me.",
+    source: "Henry Ford",
+    tags: "Friends, Smile"
+  },
+  {
+    quote: "Everything is funny, as long as it's happening to somebody else",
+    source: "Will Rogers",
+    tags: "Humour"
+  },
+  {
+    quote: "I've missed more than 9000 shots in my career. I've lost almost 300 games. 26 times, I've been trusted to take the game winning shot and missed. I've failed over and over and over again in my life. And that is why I succeed.",
+    source: "Michael Jordan",
+    citation: "Nike Culture",
+    year: 1998,
+    tags: "Sports, Motivational"
   }
 ];
 
-var backgroundColors = ['#095256', '#087F8C', '#5AAA95', '#86A873','#BB9F06'];
+var backgroundColors = ['#095256', '#087F8C', '#5AAA95', '#86A873','#BB9F06', '#F4E04D','#B75D69', '#8B95C9', '#70163C'];
+var quoteOnPage;
 
 
 //This function will create a random quote from quotes array
@@ -60,6 +84,12 @@ function printQuote(){
   colorChange();
   //assign random object to var
   var quoteObject = getRandomQuote();
+  //check quote on page is not the same as new quote to print
+  while(quoteOnPage === quoteObject.quote){
+    quoteObject = getRandomQuote();
+  }
+  //Keep track of ONLY the quote that is printed on the quoteOnPage
+  quoteOnPage = quoteObject.quote;
   //building string to print quote
   var messageToPrint = '<p class="quote">' + quoteObject.quote  + '</p>';
   messageToPrint += '<p class="source">' + quoteObject.source;
@@ -71,10 +101,13 @@ function printQuote(){
   if(quoteObject['year']){
     messageToPrint += '<span class="year">' + quoteObject.year +  '</span>';
   }
+  //
   messageToPrint += '</p>';
+  messageToPrint += '<p class="tags">Tags: ' + quoteObject.tags +  '</p>';
   //Grab the div and use innerHTML to print our string.
   document.getElementById('quote-box').innerHTML = messageToPrint;
 }
+
 //run printQuote func so that a random quote is loaded onto the screen when page is loaded.
 printQuote();
 
