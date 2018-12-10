@@ -4,7 +4,7 @@ FSJS project 1 - A Random Quote Generator
 ******************************************/
 
 //create array of quotes, each one stored in an object
-var quotes = [
+const quotes = [
   {
     quote: "In the midst of chaos, there is also opportunity",
     source: "Sun-Tzu",
@@ -58,67 +58,60 @@ var quotes = [
   }
 ];
 
-var backgroundColors = ['#095256', '#087F8C', '#5AAA95', '#86A873','#BB9F06', '#B75D69', '#8B95C9', '#70163C'];
-var quoteOnPage;
-var timer;
+const backgroundColors = ['#095256', '#087F8C', '#5AAA95', '#86A873','#BB9F06', '#B75D69', '#8B95C9', '#70163C'];
+let quoteOnPage;
+let timer;
 
 
-//This function will create a random quote from quotes array
-function getRandomQuote(){
+//This function will return a random index of an array
+const getRandomElement = (arr) => {
   //Generate a random number from 0 - quotes.length and assigns to var
-  var randomQuote = Math.floor(Math.random() * quotes.length);
+  var randomElem = Math.floor(Math.random() * arr.length);
   //return the object with index of the random number
-  return quotes[randomQuote];
-}
+  return arr[randomElem];
+};
 
-//This function changes the background color of the page when the quote changes.
-function colorChange(){
-  //Generate a random number from 0 - backgroundColors.length.
-  var randomColor = Math.floor(Math.random() * backgroundColors.length);
-  //selects the body and changes the background-color to randomly selected one from array.
-  document.querySelector('body').style.backgroundColor = backgroundColors[randomColor];
-}
-
-//Function will replace the quote on page
-function printQuote(){
-  //run colorchange func to change background color
-  colorChange();
-  //assign random object to var
-  var quoteObject = getRandomQuote();
-  //check quote on page is not the same as new quote to print
-  while(quoteOnPage === quoteObject.quote){
-    quoteObject = getRandomQuote();
-  }
-  //Keep track of ONLY the quote that is printed on the quoteOnPage
-  quoteOnPage = quoteObject.quote;
-  //building string to print quote
-  var messageToPrint = '<p class="quote">' + quoteObject.quote  + '</p>';
-  messageToPrint += '<p class="source">' + quoteObject.source;
-  //check if quote has citation, if so, add to string
-  if(quoteObject['citation']){
-    messageToPrint += '<span class="citation">' + quoteObject.citation +  '</span>';
-  }
-  //check if quote has year, if so add it
-  if(quoteObject['year']){
-    messageToPrint += '<span class="year">' + quoteObject.year +  '</span>';
-  }
-  //
-  messageToPrint += '</p>';
-  messageToPrint += '<p class="tags">Tags: ' + quoteObject.tags +  '</p>';
-  //Grab the div and use innerHTML to print our string.
-  document.getElementById('quote-box').innerHTML = messageToPrint;
-  intervalTimer();
-}
-
-//run printQuote func so that a random quote is loaded onto the screen when page is loaded and interval is active
-printQuote();
-
-function intervalTimer() {
+//timer for loading quotes
+const intervalTimer = () => {
   //cleartimer
   clearInterval(timer);
   //restart timer, every 10 secs will call printQuote
   timer = setInterval(printQuote, 10000);
-}
+};
+
+//Function will replace the quote on page
+const printQuote = () => {
+  //change background color
+  document.querySelector('body').style.backgroundColor = getRandomElement(backgroundColors);
+  //assign random object to var
+  let quoteObject = getRandomElement(quotes);
+  //check quote on page is not the same as new quote to print
+  while(quoteOnPage === quoteObject.quote){
+    quoteObject = getRandomElement(quotes);
+  }
+  //Keep track of ONLY the quote that is printed on the quoteOnPage
+  quoteOnPage = quoteObject.quote;
+  //building string to print quote
+  let messageToPrint = `<p class="quote">${quoteObject.quote}</p>
+  <p class="source">${quoteObject.source}`;
+  //check if quote has citation, if so, add to string
+  if(quoteObject['citation']){
+    messageToPrint += `<span class="citation">${quoteObject.citation}</span>`;
+  }
+  //check if quote has year, if so add it
+  if(quoteObject['year']){
+    messageToPrint += `<span class="year">${quoteObject.year}</span>`;
+  }
+  //close paragraph and add tags to string
+  messageToPrint += `</p><p class="tags">Tags: ${quoteObject.tags}</p>`;
+  //Grab the div and use innerHTML to print our string.
+  document.getElementById('quote-box').innerHTML = messageToPrint;
+  intervalTimer();
+};
+
+//run printQuote func so that a random quote is loaded onto the screen when page is loaded and interval is active
+printQuote();
+
 
 //Event Listener on button which will call print func
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
